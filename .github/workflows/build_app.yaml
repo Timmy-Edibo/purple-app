@@ -24,7 +24,7 @@ jobs:
       # 👇 Store the build folder
       - uses: actions/upload-artifact@v4
         with:
-          name: app-build
+          name: my-artifact
           path: build
 
   deploy-app:
@@ -35,5 +35,18 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: app-build
+          name: my-artifact
+          path: build
+
       - run: ls -l
+
+      - name: Copy file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: "159.65.80.199"
+          username: "root"
+          password: ${{ secrets.PASSWORD }}
+          source: build
+          target: /home
+  
+    
