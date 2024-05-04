@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///home/timmy-pc/projects/personal/purple-app/.github/workflows/build_app.yaml"
+    }
+}
