@@ -36,4 +36,4 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-build
-      - run: ls purple-app
+      - run: ls -l
