@@ -20,3 +20,13 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build --if-present
+
+  deploy:
+    needs: [build]
+    steps:
+      # 👇 Get the dist folder
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: app-build
+      - run: ls build
