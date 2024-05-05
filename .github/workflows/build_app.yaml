@@ -56,7 +56,7 @@ jobs:
             cd /etc/nginx/sites-available && touch build
             echo 'server {
                   listen 80;
-                  server_name 159.65.80.199;
+                  server_name ${{ secrets.HOST }};
 
                   root /var/www/react_app;
                   index index.html;
