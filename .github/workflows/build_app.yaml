@@ -52,6 +52,7 @@ jobs:
           script: |
             cd /var && mkdir www
             cd ~/ && sh boostrap.sh
+            rm -rf /etc/nginx/sites-available/react_app && /etc/nginx/sites-enabled/react_app
             cd /etc/nginx/sites-available && touch build
             echo "server {
                   listen 80;
