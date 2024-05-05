@@ -65,7 +65,7 @@ jobs:
                   }
               }" > react_app
 
-            sudo ln -s /etc/nginx/sites-available/build /etc/nginx/sites-enabled/
+            sudo ln -s /etc/nginx/sites-available/react_app /etc/nginx/sites-enabled/
             sudo nginx -t
             sudo systemctl restart nginx
 
