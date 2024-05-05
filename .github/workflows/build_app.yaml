@@ -87,8 +87,11 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
+            rm -rf /var/www/react_app
             mv /var/www/build  /var/www/react_app 
             cd /var/www/react_app
+
+            echo "cleared fromer dir and new one is in..."
 
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
