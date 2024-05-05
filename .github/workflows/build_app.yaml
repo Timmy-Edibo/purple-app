@@ -1,5 +1,6 @@
 name: Deploying react application
 
+# trigger -> Evenst that triggers the pipeline
 on:
   push:
     branches:
@@ -7,15 +8,18 @@ on:
       - "feature"
       - "releases/**"
 
+# task -> Any Ci/CD task we want our pipeline to run
 jobs:
   build-app:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "14.x"
+      
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -26,6 +30,7 @@ jobs:
         with:
           name: my-artifact
           path: build
+  
 
   deploy-app:
     runs-on: ubuntu-latest
@@ -53,7 +58,7 @@ jobs:
             cd /var && mkdir www
             cd ~/ && sh boostrap.sh
             rm -rf /etc/nginx/sites-available/react_app && rm /etc/nginx/sites-enabled/react_app
-            cd /etc/nginx/sites-available && touch build
+            cd /etc/nginx/sites-available && touch react_app
             echo 'server {
                   listen 80;
                   server_name ${{ secrets.HOST }};
@@ -91,7 +96,7 @@ jobs:
             mv /var/www/build  /var/www/react_app 
             cd /var/www/react_app
 
-            echo "cleared fromer dir and new one is in..."
+            echo "cleared former dir and new one is in..."
 
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
@@ -99,10 +104,5 @@ jobs:
             systemctl restart nginx
             systemctl daemon-reload
 
-            npm install -g pm2
-
-            pm2 start npm --name "react_app" -- start
-            pm2 startup
-            pm2 save
   
     
