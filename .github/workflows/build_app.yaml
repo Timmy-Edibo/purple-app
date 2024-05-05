@@ -93,6 +93,9 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
 
+            systemctl restart nginx
+            systemctl daemon-reload
+
             npm install -g pm2
 
             pm2 start npm --name "react_app" -- start
