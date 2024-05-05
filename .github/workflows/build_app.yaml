@@ -25,7 +25,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: my-artifact
-          path: build
+          path: react_app
 
   deploy-app:
     runs-on: ubuntu-latest
@@ -36,17 +36,61 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: my-artifact
-          path: build
+          path: react_app
 
-      - run: ls -l
+      - name: Listing directories to check for build folder
+        run: ls -l
 
-      - name: Copy file to server
+      - name: Deploy to Jenkins-Server
+        id: deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd /var && mkdir www
+            cd ~/ && sh boostrap.sh
+            cd /etc/nginx/sites-available && touch build
+            echo "server {
+                  listen 80;
+                  server_name 159.65.80.199;
+
+                  root /var/www/react_app;
+                  index index.html;
+
+                  location / {
+                      try_files $uri /index.html;
+                  }
+              }" > react_app
+
+            sudo ln -s /etc/nginx/sites-available/build /etc/nginx/sites-enabled/
+            sudo nginx -t
+            sudo systemctl restart nginx
+
+      - name: Create www directory in server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: "159.65.80.199"
-          username: "root"
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          source: build
-          target: /home
+          source: react-app
+          target: /var/www
+
+      - name: Deploy to Jenkins-Server
+        id: deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd /var/www/react_app
+
+            pm2 start npm --name "react_app" -- start
+            pm2 startup
+            pm2 save
   
     
