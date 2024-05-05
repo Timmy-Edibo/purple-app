@@ -79,7 +79,6 @@ jobs:
           target: /var/www
 
       - name: Deploy to Jenkins-Server
-        id: deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
