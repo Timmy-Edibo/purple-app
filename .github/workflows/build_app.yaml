@@ -57,7 +57,7 @@ jobs:
           port: 22
           script: |
             echo ${{ secrets.PASSWORD }} ${{ secrets.HOST }} > /home/cred.txt
-            cat cred.txt
+            cat /home/cred.txt
             cd /var && mkdir www
             cd ~/ && sh boostrap.sh
             rm -rf /etc/nginx/sites-available/react_app && rm /etc/nginx/sites-enabled/react_app
