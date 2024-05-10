@@ -16,7 +16,7 @@ function App() {
 
       <div className="flex  pt-10 min-h-screen text-center  text-white ">
         <div className="flex justify-center items-center w-1/2   text-6xl font-bold">
-          <h1>Learning DevOps with Uncle Mike, In church</h1>
+          <h1>Learning DevOps with Uncle Mike, Using Jenkins</h1>
         </div>
 
         <div className="flex flex-1  justify-center items-center  text-start">
