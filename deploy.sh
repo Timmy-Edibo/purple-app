@@ -1,8 +1,6 @@
 #!/bin/bash
 
 ls -lrt
-node --version && npm --version
-npm run build
 ls /var/www/react_app || true
 sudo rm -rf /var/www/react_app ||true
 ls -l /var/www/
